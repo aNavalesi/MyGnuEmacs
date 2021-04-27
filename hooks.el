@@ -27,3 +27,4 @@
    (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
    (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
    (prettify-symbols-mode)))
+(add-hook 'exwm-mode 'exwm-input-release-keyboard)

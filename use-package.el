@@ -52,7 +52,7 @@
   (require 'emms-setup)
   (emms-all)
   (emms-default-players)
-  (setq emms-source-file-default-directory "~/Music/")
+  (setq emms-source-file-default-directory "~/media/music/")
   (setq emms-playlist-buffer-name "*Music*")
   (setq emms-info-asynchronously t)
   ;(require 'emms-info-libtag) ;;; load functions that will talk to emms-print-metadata which in turn talks to libtag and gets metadata
@@ -88,9 +88,7 @@
 (use-package all-the-icons
   :ensure t)
 (use-package elfeed
-  :ensure t)
-
-(use-package elfeed
+    :ensure t
   :bind (("C-c C-f g" . elfeed-goodies/setup)
 	 ("C-c C-f b" . elfeed-search-browse-url)))
   (setq elfeed-feeds
