@@ -1,11 +1,10 @@
 * Emacs config
 My Gnu emacs config, the worst literate config you've ever seen
-** Melpa config 
-   Do i even have to explain this? lol
-   #+begin_src emacs-lisp
-   (require 'package)
-   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-   (package-initialize)
+** straight.el 
+   Package manager for emacs that seems based.
+   #+BEGIN_SRC emacs-lisp
+   (load-file "~/.emacs.d/straight.el/bootstrap.el")
+   (kill-buffer "*straight-process*")
    #+end_src
 ** Interface basic config
    Make emacs interface better
@@ -19,7 +18,7 @@ My Gnu emacs config, the worst literate config you've ever seen
    (set-face-attribute 'default nil :font "dejavu sans mono" :height 120)
    (load-theme 'doom-dracula t)
    #+end_src
-** Better text buffer modes defaults
+** Better text buffer modes 
    evil, global-display-line-numbers and smartparens are quite useful for text editing
   #+begin_src emacs-lisp
   (require 'smartparens-config)
@@ -32,7 +31,7 @@ My Gnu emacs config, the worst literate config you've ever seen
    Pkg that displays possible keybindings after you press SPC, C or M
    #+begin_src emacs-lisp
    (use-package which-key
-  :ensure t)
+  :straight t)
    (require 'which-key)
    (which-key-mode)
    #+end_src
@@ -54,12 +53,13 @@ My Gnu emacs config, the worst literate config you've ever seen
     an app launcher for emacs (there is also dmenu)
     #+begin_src emacs-lisp
     (load-file "~/.emacs.d/app-launcher.el")
-    (use-package dmenu :ensure t)
+    (use-package dmenu :straight t)
     #+end_src
 *** exwm keys
     Some keybindings to do some desktop stuff from exwm (dont @ me)
     #+begin_src emacs-lisp
     (exwm-input-set-key (kbd "s-a") 'app-launcher-run-app)
+    (exwm-input-set-key (kbd "<XF86AudioPlay>") 'desktop-environment-toggle-music)
     (exwm-input-set-key (kbd "<XF86Explorer>") 'ivy-switch-buffer)
     (exwm-input-set-key (kbd "<XF86AudioRaiseVolume>") 'desktop-environment-volume-increment)
     (exwm-input-set-key (kbd "<XF86AudioLowerVolume>") 'desktop-environment-volume-decrement)
@@ -81,6 +81,8 @@ My Gnu emacs config, the worst literate config you've ever seen
     (exwm-input-set-key (kbd "s-q") 'kill-current-buffer)
     (exwm-input-set-key (kbd "s-b") 'ivy-switch-buffer)
     (exwm-input-set-key (kbd "s-o") 'other-window)
+    (exwm-input-set-key (kbd "s-n") 'next-buffer)
+    (exwm-input-set-key (kbd "s-p") 'previous-buffer)
     (exwm-input-set-key (kbd "s-f") 'delete-other-windows)
     (exwm-input-set-key (kbd "s-z") 'exwm-workspace-move-window)
     (exwm-input-set-key (kbd "s-c") 'exwm-input-release-keyboard)
@@ -90,11 +92,56 @@ My Gnu emacs config, the worst literate config you've ever seen
 *** Desktop environment
     A based package to interact with audio, video and network in emacs
     #+begin_src emacs-lisp
-    (use-package desktop-environment :ensure t)
+    (use-package desktop-environment :straight t)
     (setq desktop-environment-screenshot-directory "~/media/pix/screens") 
     #+end_src
+*** workspaces
+    some stuff for workspaces
+    #+begin_src emacs-lisp
+    (setq exwm-workspace-number 4)
+    (easy-menu-define exwm-workspace-menu nil
+    "Menu for Exwm Workspace.
+    Also used in `exwm-mode-line-workspace-map'."
+    '("Exwm Workspace"
+    ["Add workspace" exwm-workspace-add]
+    ["Delete current workspace" exwm-workspace-delete]
+    ["Move workspace to" exwm-workspace-move]
+    ["Swap workspaces" exwm-workspace-swap]
+    ["Move X window to" exwm-workspace-move-window]
+    ["Move X window from" exwm-workspace-switch-to-buffer]
+    ["Toggle minibuffer" exwm-workspace-toggle-minibuffer]
+    ["Switch workspace" exwm-workspace-switch]
+    ("Switch to" :filter
+    (lambda (&rest _args)
+    (mapcar (lambda (i)
+    `[,(format "workspace %d" i)
+    (lambda ()
+    (interactive)
+    (exwm-workspace-switch ,i))
+    (/= ,i exwm-workspace-current-index)])
+    (number-sequence 0 (1- (exwm-workspace--count))))))))
+    (defvar exwm-mode-line-workspace-map
+    (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line mouse-1] 'exwm-workspace-switch)
+    (define-key map [mode-line mouse-3] exwm-workspace-menu)
+    map)
+  "Local keymap for EXWM mode line string.  See `exwm-mode-line-format'.")
+  (defcustom exwm-mode-line-format
+  `("["
+  (:propertize (:eval (format "WS-%d" exwm-workspace-current-index))
+  local-map ,exwm-mode-line-workspace-map
+  face bold
+  mouse-face mode-line-highlight
+  help-echo "mouse-1: Switch to / add / delete to EXWM workspaces.
+  mouse-2: EXWM Workspace menu.
+  ")
+  "]")
+  "EXWM workspace in the mode line."
+  :type 'sexp)
+  (add-to-list 'mode-line-misc-info exwm-mode-line-format t) 
+    #+end_src
 *** Other stuff
-    put battery and date on the bar, set char mode as default, run some x commands and kill their shell output (yes, i do switch ctrl and caps)
+    put battery and date on the bar, set workspaces number, set char mode as default, run some x commands and kill their shell output (yes, i do switch ctrl and caps)
     #+begin_src emacs-lisp
     (display-battery-mode)
     (display-time-mode)
@@ -107,19 +154,20 @@ My Gnu emacs config, the worst literate config you've ever seen
    ivy is a completion framework for emacs, i use it
    #+begin_src emacs-lisp
    (use-package counsel
+   :straight t
    :custom
    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
    :config
    (counsel-mode 1))
    
    (use-package ivy-rich
-   :ensure t
+   :straight t
    :after ivy
    :init
    (ivy-rich-mode 1))
    (use-package ivy
    :diminish
-   :ensure t
+   :straight t
    :bind (("C-s" . swiper)
    :map ivy-minibuffer-map
    ("TAB" . ivy-partial-or-done) 
@@ -141,42 +189,42 @@ My Gnu emacs config, the worst literate config you've ever seen
    help package that is yes
    #+begin_src emacs-lisp
    (use-package helpful
-   :ensure t)
+   :straight t)
    #+end_src
 ** Doom-modeline
    Modeline that is a lot better looking than emacs default.
    #+begin_src emacs-lisp
    (use-package doom-modeline
-   :ensure t
+   :straight t
    :init (doom-modeline-mode 1))
    #+end_src
 ** evil
    Emacs keybindings suck , evil is the answer (general.el is useful too tho) (not configured ):
    #+begin_src emacs-lisp
    (use-package evil
-   :ensure t)
+   :straight t)
    #+end_src
 ** doom-themes
    themes and color schemes, with doom modeline, they make emacs good look 
    #+begin_src emacs-lisp
    (use-package doom-themes
-   :ensure t)
+   :straight t)
    #+end_src
 ** Parens editing
    plugins to not get confused when using many parentheses ((((((((((((((((((((((hold (my (lisp))))))))))))))))))))))))
    #+begin_src emacs-lisp
    (use-package highlight-parentheses
-   :ensure t)
+   :straight t)
    (use-package smartparens
-   :ensure t)
+   :straight t)
    (use-package paredit
-   :ensure t)
+   :straight t)
    #+end_src
 ** Emms
    Emacs media payer based on mpv, why not?
    #+begin_src emacs-lisp
    (use-package emms
-   :ensure t
+   :straight t
    :config
    (require 'emms-setup)
    (emms-all)
@@ -194,13 +242,13 @@ My Gnu emacs config, the worst literate config you've ever seen
 ** Undo tree 
    since emacs and evil undos are dangerous, undo tree mode is very good
    #+begin_src emacs-lisp
-   (use-package undo-tree :ensure t)
+   (use-package undo-tree :straight t)
    #+end_src
 ** Org bullets & co
     Make org mode docs look better
     #+begin_src emacs-lisp
     (use-package org-bullets
-    :ensure t
+    :straight t
     :hook (org-mode . org-bullets-mode)
     :custom
     (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
@@ -228,7 +276,7 @@ My Gnu emacs config, the worst literate config you've ever seen
    #+begin_src emacs-lisp
    (use-package pdf-tools
    :defer t
-   :ensure t
+   :straight t
    :mode (("\\.pdf\\'" . pdf-view-mode))
    :config
    (pdf-tools-install))  
@@ -237,14 +285,14 @@ My Gnu emacs config, the worst literate config you've ever seen
    icons
    #+begin_src emacs-lisp
    (use-package all-the-icons
-   :ensure t)
+   :straight t)
    #+end_src
 ** Elfeed
    emacs feed reader
    #+begin_src emacs-lisp
    (use-package elfeed
-   :ensure t)
-   (use-package elfeed-goodies :ensure t)
+   :straight t)
+   (use-package elfeed-goodies :straight t)
    (setq elfeed-feeds
    '("https://ww.reddit.com/r/emacs.rss"
    "https://ww.reddit.com/r/linux.rss"
@@ -254,19 +302,22 @@ My Gnu emacs config, the worst literate config you've ever seen
    "https://ww.reddit.com/r/politics.rss"
    "https://ww.reddit.com/r/italy.rss"
    ))
+   (add-hook 'elfeed-search-mode-hook 'elfeed-goodies/setup)
    #+end_src
 ** geiser
    repl and other stuff for scheme
    #+begin_src emacs-lisp
    (use-package geiser
    :bind ("C-c l" . geiser-repl-clear-buffer)
-   :ensure t)
+   :straight t)
+   (straight-use-package 'geiser-chicken)
+   (straight-use-package 'geiser-guile)
    #+end_src
 ** Magit
    ultra based git client for emacs
    #+begin_src emacs-lisp
    (use-package magit
-   :ensure t)
+   :straight t)
    #+end_src
 ** Hooks
    activate some modes when activating other modes
@@ -344,6 +395,7 @@ My Gnu emacs config, the worst literate config you've ever seen
     "l" 'load-file
     "s" 'save-buffer
     "t" 'load-theme
+    "i" 'projectile-find-file
     "p" 'pandoc-output-format-slide-show-hydra/body)
     #+end_src
 *** buffer bindings
@@ -362,19 +414,9 @@ My Gnu emacs config, the worst literate config you've ever seen
     "q" 'save-buffers-kill-terminal
     "b" 'ivy-switch-buffer
     "+" 'enlarge-window-horizontally 
-    "-" 'shrink-window-horizontally)
-    #+end_src
-*** help bindings
-    #+begin_src emacs-lisp
-    (general-define-key
-    :keymaps '(normal insert emacs)
-    :prefix "SPC h"
-    :non-normal-prefix "M-SPC"
-    :prefix-command 'help-command
-    :prefix-map 'help-map
-    "k" 'helpful-key
-    "v" 'helpful-variable
-    "f" 'helpful-function)
+    "-" 'shrink-window-horizontally
+    "p" 'previous-buffer
+    "n" 'next-buffer)
     #+end_src
 *** web bindings
     #+begin_src emacs-lisp
@@ -385,7 +427,6 @@ My Gnu emacs config, the worst literate config you've ever seen
     :prefix-command 'web-command
     :prefix-map 'web-map
     "b" 'elfeed-search-browse-url
-    "g" 'elfeed-goodies/setup
     "u" 'elfeed-update
     "m" 'magit
     "c" 'magit-clone)
@@ -402,7 +443,9 @@ My Gnu emacs config, the worst literate config you've ever seen
     "f" 'emms-play-file
     "p" 'emms-pause
     "s" 'emms-stop
-    "u" 'emms-play-url)
+    "u" 'emms-play-url
+    "n" 'emms-next
+    "r" 'emms-previous)
     #+end_src
 ** ispell
    spell checker that i got working with italian and i'm quite fine with it.
@@ -413,3 +456,7 @@ My Gnu emacs config, the worst literate config you've ever seen
    #+begin_src emacs-lisp
    (setq org-agenda-files '("~/.emacs.d/agenda.org"))
    #+end_src
+** Todo
+   is it cringe to put what i would like to add to this config
+*** TODO eshell config
+*** TODO better org mode config
