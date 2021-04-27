@@ -79,42 +79,40 @@
 ** Ivy & counsel
    ivy is a completion framework for emacs, i use it
    #+begin_src emacs-lisp
-     (use-package counsel
-     :straight t
-     :custom
-     (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-     :config
-     (counsel-mode 1))
-     (use-package all-the-icons-ivy-rich :straight t)
-     (all-the-icons-ivy-rich-mode)
-     (use-package ivy-rich
-     :straight t
-     :after ivy
-     :init
-     (ivy-rich-mode 1))
-     (use-package ivy
-     :diminish
-     :straight t
-     :bind (("C-s" . swiper)
-     :map ivy-minibuffer-map
-     ("TAB" . ivy-partial-or-done) 
-     ("C-l" . ivy-alt-done)
-     ("C-j" . ivy-next-line)
-     ("C-k" . ivy-previous-line)
-     :map ivy-switch-buffer-map
-     ("C-k" . ivy-previous-line)
-     ("C-l" . ivy-done)
-     ("C-d" . ivy-switch-buffer-kill)
-     :map ivy-reverse-i-search-map
-     ("C-k" . ivy-previous-line)
-     ("C-d" . ivy-reverse-i-search-kill))
-     :config
-     (ivy-mode 1))
-     (ivy-mode)
-     (use-package ivy-posframe :straight t)
-     (ivy-posframe-mode)
-     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
-     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+	  (use-package counsel
+	  :straight t
+	  :custom
+	  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+	  :config
+	  (counsel-mode 1))
+	  (use-package all-the-icons-ivy-rich :straight t)
+	  (all-the-icons-ivy-rich-mode)
+	  (use-package ivy-rich
+	  :straight t
+	  :after ivy
+	  :init
+	  (ivy-rich-mode 1))
+	  (use-package ivy
+	  :diminish
+	  :straight t
+	  :bind (("C-s" . swiper)
+	  :map ivy-minibuffer-map
+	  ("TAB" . ivy-partial-or-done) 
+	  ("C-l" . ivy-alt-done)
+	  ("C-j" . ivy-next-line)
+	  ("C-k" . ivy-previous-line)
+	  :map ivy-switch-buffer-map
+	  ("C-k" . ivy-previous-line)
+	  ("C-l" . ivy-done)
+	  ("C-d" . ivy-switch-buffer-kill)
+	  :map ivy-reverse-i-search-map
+	  ("C-k" . ivy-previous-line)
+	  ("C-d" . ivy-reverse-i-search-kill))
+	  :config
+	  (ivy-mode 1))
+	  (ivy-mode)
+	  (use-package ivy-posframe :straight t)
+          (ivy-posframe-mode)
    #+end_src
 ** Helpful
    help package that is yes
@@ -164,36 +162,36 @@
 ** Org bullets & co
     Make org mode docs look better
     #+begin_src emacs-lisp
-    (use-package org-bullets
-    :straight t
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-    (add-hook 'org-mode-hook (lambda ()
-    "Beautify Org Checkbox Symbol"
-    (push '("[ ]" .  "☐") prettify-symbols-alist)
-    (push '("[X]" . "☑" ) prettify-symbols-alist)
-    (push '("[-]" . "❍" ) prettify-symbols-alist)
-    (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-    (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-    (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-    (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-    (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-    (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-    (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-    (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-    (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-    (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-    (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-    (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
-    (prettify-symbols-mode)))
+      (use-package org-bullets
+      :straight t
+      :hook (org-mode . org-bullets-mode)
+      :custom
+      (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+      (add-hook 'org-mode-hook (lambda ()
+      "Beautify Org Checkbox Symbol"
+      (push '("[ ]" .  "☐") prettify-symbols-alist)
+      (push '("[X]" . "☑" ) prettify-symbols-alist)
+      (push '("[-]" . "❍" ) prettify-symbols-alist)
+      (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+      (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+      (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+      (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+      (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+      (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+      (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+      (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+      (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+      (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+      (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+      (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+      (prettify-symbols-mode)))
     #+end_src
 ** dired-icons
    icons in emacs file manager
    #+begin_src emacs-lisp
-    (use-package all-the-icons-dired
-      :straight t
-      :hook (dired-mode . all-the-icons-dired-mode))
+     (use-package all-the-icons-dired
+       :straight t)
+     (hook (dired-mode . all-the-icons-dired-mode))
    #+end_src
 ** Pdf
    Useful if you want to use emacs for pdf reading
@@ -210,23 +208,6 @@
    #+begin_src emacs-lisp
    (use-package all-the-icons
    :straight t)
-   #+end_src
-** Elfeed
-   emacs feed reader
-   #+begin_src emacs-lisp
-   (use-package elfeed
-   :straight t)
-   (use-package elfeed-goodies :straight t)
-   (setq elfeed-feeds
-   '("https://ww.reddit.com/r/emacs.rss"
-   "https://ww.reddit.com/r/linux.rss"
-   "https://ww.reddit.com/r/news.rss"
-   "https://ww.reddit.com/r/technology.rss"
-   "https://ww.reddit.com/r/programming.rss"
-   "https://ww.reddit.com/r/politics.rss"
-   "https://ww.reddit.com/r/italy.rss"
-   ))
-   (add-hook 'elfeed-search-mode-hook 'elfeed-goodies/setup)
    #+end_src
 ** geiser
    repl and other stuff for scheme
@@ -248,11 +229,38 @@
    #+begin_src emacs-lisp
    (setq erc-server "irc.libera.chat" erc-nick "nava")
    #+end_src
+** Elfeed
+   emacs feed reader
+   #+begin_src emacs-lisp
+	(use-package elfeed
+         :straight t)
+	(use-package elfeed-goodies :straight t)
+	(setq elfeed-feeds
+	'("https://ww.reddit.com/r/emacs.rss"
+	"https://ww.reddit.com/r/linux.rss"
+	"https://ww.reddit.com/r/news.rss"
+	"https://ww.reddit.com/r/technology.rss"
+	"https://ww.reddit.com/r/programming.rss"
+	"https://ww.reddit.com/r/politics.rss"
+	"https://ww.reddit.com/r/italy.rss"
+	))
+	(add-hook 'elfeed-search-mode-hook 'elfeed-goodies/setup)
+   #+end_src
+** q4
+   strange reddit client (4chan)
+   #+begin_src emacs-lisp
+   (load "~/.emacs.d/q4.el")
+   #+end_src
 ** Magit
    ultra based git client for emacs
    #+begin_src emacs-lisp
    (use-package magit
    :straight t)
+   #+end_src
+** reload config
+   function to reload config
+   #+begin_src emacs-lisp
+   (defun reload-config () (load-file "~/.emacs.d/init.el") (interactive))
    #+end_src
 ** general kb
    some SPC /comfy/ keybindings
@@ -266,38 +274,39 @@
       (define-key evil-normal-state-map (kbd "u") 'undo-tree-visualize)
       (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     #+end_src
+*** generic bindings
+    #+begin_src emacs-lisp
+      (general-define-key :keymaps '(normal insert emacs)
+      :non-normal-prefix "M-SPC"
+	:prefix "SPC"
+	  "x" 'counsel-M-x
+	  "SPC" 'find-file
+	  "k" 'kill-current-buffer 
+          "s" 'save-buffer 
+
+
+ 
+	    )
+
+    #+end_src
 *** org-bindings
     #+begin_src emacs-lisp
-    (general-define-key
-    :keymaps '(normal insert emacs)
-    :prefix "SPC o"
-    :non-normal-prefix "M-SPC"
-    :prefix-command 'org-command
-    :prefix-map 'org-map
-    "RET" 'org-mode
-    "t" 'org-insert-todo-heading
-    "x" 'org-toggle-checkbox
-    "s" 'org-schedule
-    "a" 'org-agenda
-    "n" 'org-insert-subheading
-    "e" 'org-export-dispatch)
-    #+end_src
-*** app bindings
-    #+begin_src emacs-lisp
-    (general-define-key
-    :keymaps '(normal insert emacs)
-    :prefix "SPC a"
-    :non-normal-prefix "M-SPC"
-    :prefix-command 'apps-command 
-    :prefix-map 'apps-map
-    "m" 'magit
-    "f" 'elfeed
-    "r" 'erc
-    "m" 'emms
-    "h" 'shell
-    "t" 'ansi-term
-    "g" 'geiser
-    "p" 'proced)
+      (defun org-literate () (paredit-mode) (ispell-minor-mode -1) (interactive)) ;; function to use org mode for programming
+      (general-define-key
+      :keymaps '(normal insert emacs)
+      :prefix "SPC o"
+      :non-normal-prefix "M-SPC"
+      :prefix-command 'org-command
+      :prefix-map 'org-map
+      "RET" 'org-mode
+      "l" 'org-literate
+      "t" 'org-babel-tangle
+      "t" 'org-insert-todo-heading
+      "x" 'org-toggle-checkbox
+      "s" 'org-schedule
+      "a" 'org-agenda
+      "n" 'org-insert-subheading
+      "e" 'org-export-dispatch)
     #+end_src
 *** files bindings
     #+begin_src emacs-lisp
@@ -307,8 +316,6 @@
       :non-normal-prefix "M-SPC"
       :prefix-command 'files-command
       :prefix-map 'files-map
-      "f" 'find-file
-      "x" 'counsel-M-x
       "d" 'dired
       "c" 'count-words
       "i" 'ispell-buffer
@@ -321,23 +328,23 @@
     #+end_src
 *** buffer bindings
     #+begin_src emacs-lisp
-    (general-define-key
-    :keymaps '(normal insert emacs)
-    :prefix "SPC b"
-    :non-normal-prefix "M-SPC"
-    :prefix-command 'buffer-command
-    :prefix-map 'buffer-map
-    "k" 'kill-current-buffer
-    "h" 'split-window-below
-    "v" 'split-window-right
-    "f" 'delete-other-windows
-    "o" 'other-window
-    "q" 'save-buffers-kill-terminal
-    "b" 'ivy-switch-buffer
-    "+" 'enlarge-window-horizontally 
-    "-" 'shrink-window-horizontally
-    "p" 'previous-buffer
-    "n" 'next-buffer)
+      (general-define-key
+      :keymaps '(normal insert emacs)
+      :prefix "SPC b"
+      :non-normal-prefix "M-SPC"
+      :prefix-command 'buffer-command
+      :prefix-map 'buffer-map
+      "k" 'kill-current-buffer
+      "h" 'split-window-below
+      "v" 'split-window-right
+      "f" 'delete-other-windows
+      "o" 'other-window
+      "q" 'save-buffers-kill-terminal
+      "b" 'ivy-switch-buffer
+      "+" 'enlarge-window-horizontally 
+      "-" 'shrink-window-horizontally
+      "p" 'previous-buffer
+      "n" 'next-buffer)
     #+end_src
 *** web bindings
     #+begin_src emacs-lisp
@@ -350,7 +357,10 @@
     "b" 'elfeed-search-browse-url
     "u" 'elfeed-update
     "m" 'magit
-    "c" 'magit-clone)
+    "f" 'elfeed
+    "r" 'erc
+    "c" 'magit-clone
+    "4" 'q4/browse-board)
     #+end_src
 *** media bindings
     #+begin_src emacs-lisp
@@ -383,6 +393,11 @@
   (require 'server)
   (server-force-delete)
   (server-start)
+   #+end_src
+** projectile
+   framework for dealing with projects
+   #+begin_src emacs-lisp
+   (use-package projectile :straight t)
    #+end_src
 ** not related stuff
    #+begin_src emacs-lisp
