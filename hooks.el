@@ -28,3 +28,4 @@
    (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
    (prettify-symbols-mode)))
 (add-hook 'exwm-mode 'exwm-input-release-keyboard)
+(global-hl-line-mode +1)

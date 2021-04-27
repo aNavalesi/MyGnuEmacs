@@ -75,10 +75,6 @@
 (use-package paredit
   :ensure t)
 
-(use-package org-mode
-  :bind (("C-c t" . org-insert-todo-heading)
-	 ("C-c x" . org-toggle-checkbox)
-	 ("C-c s" . org-schedule)))
 (use-package pdf-tools
     :defer t
     :mode (("\\.pdf\\'" . pdf-view-mode))

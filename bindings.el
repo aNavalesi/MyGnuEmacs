@@ -1,14 +1,5 @@
 (general-define-key
  :keymaps '(normal insert emacs)
- :prefix "SPC m"
- :non-normal-prefix "M-SPC"
- :prefix-command 'magit-command
- :prefix-map 'magit-map
- "RET" 'magit
- "c" 'magit-clone)
-
-(general-define-key
- :keymaps '(normal insert emacs)
  :prefix "SPC o"
  :non-normal-prefix "M-SPC"
  :prefix-command 'org-command
@@ -38,16 +29,6 @@
 
 (general-define-key
 :keymaps '(normal insert emacs)
-:prefix "SPC l"
-:non-normal-prefix "M-SPC"
-:prefix-command 'lisp-command
-:prefix-map 'lisp-map
-"u" 'uncomment-region
-"c" 'comment-region
-"e" 'eval-buffer) 
-
-(general-define-key
-:keymaps '(normal insert emacs)
 :prefix "SPC f"
 :non-normal-prefix "M-SPC"
 :prefix-command 'files-command
@@ -55,6 +36,7 @@
 "f" 'find-file
 "x" 'counsel-M-x
 "d" 'dired
+"e" 'eval-buffer
 "l" 'load-file
 "s" 'save-buffer
 "t" 'load-theme)
@@ -70,7 +52,10 @@
 "v" 'split-window-right
 "f" 'delete-other-windows
 "o" 'other-window
-"q" 'save-buffers-kill-terminal)
+"q" 'save-buffers-kill-terminal
+"b" 'ivy-switch-buffer
+"+" 'enlarge-window-horizontally 
+"-" 'shrink-window-horizontally)
 
 (general-define-key
 :keymaps '(normal insert emacs)
@@ -89,4 +74,20 @@
 :prefix-command 'web-command
 :prefix-map 'web-map
 "b" 'elfeed-search-browse-url
-"g" 'elfeed-goodies/setup)
+"g" 'elfeed-goodies/setup
+"u" 'elfeed-update)
+
+ (general-define-key
+:keymaps '(normal insert emacs)
+:prefix "SPC m"
+:non-normal-prefix "M-SPC"
+:prefix-command 'media-command
+:prefix-map 'media-map
+"RET" 'emms
+"f" 'emms-play-file
+"p" 'emms-pause
+"s" 'emms-stop
+"u" 'emms-play-url)
+
+ 
+ (define-key evil-normal-state-map (kbd "u") 'undo-tree-visualize)

@@ -1,4 +1,7 @@
 ;;WM keys
+(load-file "~/.emacs.d/app-launcher.el")
+(exwm-input-set-key (kbd "s-a") 'app-launcher-run-app)
+(exwm-input-set-key (kbd "<XF86Explorer>") 'ivy-switch-buffer)
 (exwm-input-set-key (kbd "<XF86AudioRaiseVolume>") 'desktop-environment-volume-increment)
 (exwm-input-set-key (kbd "<XF86AudioLowerVolume>") 'desktop-environment-volume-decrement)
 (exwm-input-set-key (kbd "<XF86AudioMute>") 'desktop-environment-toggle-mute)
@@ -8,6 +11,7 @@
 (exwm-input-set-key (kbd "<XF86MonBrightnessUp>") 'desktop-environment-brightness-increment-slowly)
 (exwm-input-set-key (kbd "s-<return>") 'ansi-term)
 (exwm-input-set-key (kbd "s-d") 'dmenu)
+(exwm-input-set-key (kbd "<XF86LaunchA>") 'dmenu)
 (exwm-input-set-key (kbd "s-e <return>") 'eshell)
 (exwm-input-set-key (kbd "s-e p") 'proced)
 (exwm-input-set-key (kbd "s-e g") 'geiser)
@@ -23,6 +27,7 @@
 (exwm-input-set-key (kbd "s-o") 'other-window)
 (exwm-input-set-key (kbd "s-f") 'delete-other-windows)
 (exwm-input-set-key (kbd "s-z") 'exwm-workspace-move-window)
+(exwm-input-set-key (kbd "s-c") 'exwm-input-release-keyboard)
 (exwm-input-set-key (kbd "s-SPC") 'exwm-floating-toggle-floating)
 (exwm-input-set-key (kbd "<print>") 'desktop-environment-screenshot)
 (display-battery-mode)
