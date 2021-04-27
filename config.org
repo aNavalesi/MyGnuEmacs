@@ -14,23 +14,37 @@
 ** Interface basic config
    Make emacs interface better
    #+begin_src emacs-lisp
-   (setq inhibit-startup-message t)
-   (scroll-bar-mode -1)
-   (tool-bar-mode -1)
-   (tooltip-mode -1)
-   (set-fringe-mode 10)
-   (menu-bar-mode -1)
-   (set-face-attribute 'default nil :font "dejavu sans mono" :height 120)
+       (setq inhibit-startup-message t)
+       (scroll-bar-mode -1)
+       (tool-bar-mode -1)
+       (tooltip-mode -1)
+       (set-fringe-mode 10)
+;;       (menu-bar-mode -1)
+       (set-face-attribute 'default nil :font "dejavu sans mono" :height 120)
+   #+end_src
+** Delete backup files
+   i don't want your backup files emacs
+   #+begin_src emacs-lisp
+     (setq make-backup-files nil)
+     (setq auto-save-default nil)
+   #+end_src
+** y | n alias
+   yes is too long
+   #+begin_src emacs-lisp
+   (defalias 'yes-or-no-p 'y-or-n-p)
    #+end_src
 ** Parens editing
    plugins to not get confused when using many parentheses ((((((((((((((((((((((hold (my (lisp))))))))))))))))))))))))
    #+begin_src emacs-lisp
-   (use-package highlight-parentheses
-   :straight t)
-   (use-package smartparens
-   :straight t)
-   (use-package paredit
-   :straight t)
+     (use-package highlight-parentheses
+	 :straight t)
+     (use-package smartparens
+	 :straight t)
+     (use-package paredit
+	 :straight t
+	 :hook (scheme-mode . paredit-mode)
+	 :hook (lisp-mode . paredit-mode)
+	 :hook (emacs-lisp-mode . paredit-mode))
    #+end_src
 ** Which Key
    Pkg that displays possible keybindings after you press SPC, C or M
@@ -55,46 +69,52 @@
 ** Better text buffer modes 
    evil, global-display-line-numbers and smartparens are quite useful for text editing
   #+begin_src emacs-lisp
-  (require 'smartparens-config)
-  (require 'smartparens)
-  (smartparens-global-mode t)
-  (evil-mode)
-  (global-display-line-numbers-mode t)
+    (require 'smartparens-config)
+    (require 'smartparens)
+    (smartparens-global-mode t)
+    (evil-mode)
+    (global-highlight-parentheses-mode)
+    (global-display-line-numbers-mode t)
   #+end_src
 ** Ivy & counsel
    ivy is a completion framework for emacs, i use it
    #+begin_src emacs-lisp
-   (use-package counsel
-   :straight t
-   :custom
-   (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-   :config
-   (counsel-mode 1))
-   
-   (use-package ivy-rich
-   :straight t
-   :after ivy
-   :init
-   (ivy-rich-mode 1))
-   (use-package ivy
-   :diminish
-   :straight t
-   :bind (("C-s" . swiper)
-   :map ivy-minibuffer-map
-   ("TAB" . ivy-partial-or-done) 
-   ("C-l" . ivy-alt-done)
-   ("C-j" . ivy-next-line)
-   ("C-k" . ivy-previous-line)
-   :map ivy-switch-buffer-map
-   ("C-k" . ivy-previous-line)
-   ("C-l" . ivy-done)
-   ("C-d" . ivy-switch-buffer-kill)
-   :map ivy-reverse-i-search-map
-   ("C-k" . ivy-previous-line)
-   ("C-d" . ivy-reverse-i-search-kill))
-   :config
-   (ivy-mode 1))
-   (ivy-mode)
+     (use-package counsel
+     :straight t
+     :custom
+     (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+     :config
+     (counsel-mode 1))
+     (use-package all-the-icons-ivy-rich :straight t)
+     (all-the-icons-ivy-rich-mode)
+     (use-package ivy-rich
+     :straight t
+     :after ivy
+     :init
+     (ivy-rich-mode 1))
+     (use-package ivy
+     :diminish
+     :straight t
+     :bind (("C-s" . swiper)
+     :map ivy-minibuffer-map
+     ("TAB" . ivy-partial-or-done) 
+     ("C-l" . ivy-alt-done)
+     ("C-j" . ivy-next-line)
+     ("C-k" . ivy-previous-line)
+     :map ivy-switch-buffer-map
+     ("C-k" . ivy-previous-line)
+     ("C-l" . ivy-done)
+     ("C-d" . ivy-switch-buffer-kill)
+     :map ivy-reverse-i-search-map
+     ("C-k" . ivy-previous-line)
+     ("C-d" . ivy-reverse-i-search-kill))
+     :config
+     (ivy-mode 1))
+     (ivy-mode)
+     (use-package ivy-posframe :straight t)
+     (ivy-posframe-mode)
+     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
    #+end_src
 ** Helpful
    help package that is yes
@@ -114,7 +134,7 @@
    #+begin_src emacs-lisp
    (use-package doom-themes
    :straight t)
-   (load-theme 'doom-challenger-deep t)
+   (load-theme 'doom-gruvbox t)
    #+end_src
 ** Emms
    Emacs media payer based on mpv, why not?
@@ -139,6 +159,7 @@
    since emacs and evil undos are dangerous, undo tree mode is very good
    #+begin_src emacs-lisp
    (use-package undo-tree :straight t)
+   (global-undo-tree-mode)
    #+end_src
 ** Org bullets & co
     Make org mode docs look better
@@ -167,6 +188,13 @@
     (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
     (prettify-symbols-mode)))
     #+end_src
+** dired-icons
+   icons in emacs file manager
+   #+begin_src emacs-lisp
+    (use-package all-the-icons-dired
+      :straight t
+      :hook (dired-mode . all-the-icons-dired-mode))
+   #+end_src
 ** Pdf
    Useful if you want to use emacs for pdf reading
    #+begin_src emacs-lisp
@@ -209,30 +237,22 @@
    (straight-use-package 'geiser-guile)
    (straight-use-package 'racket-mode)
    #+end_src
+** slime
+   common lisp good plugin yes
+   #+begin_src emacs-lisp
+   (use-package slime :straight t)
+   (setq inferior-lisp-program "sbcl")
+   #+end_src
+** erc
+   emacs irc client
+   #+begin_src emacs-lisp
+   (setq erc-server "irc.libera.chat" erc-nick "nava")
+   #+end_src
 ** Magit
    ultra based git client for emacs
    #+begin_src emacs-lisp
    (use-package magit
    :straight t)
-   #+end_src
-** Hooks
-   activate some modes when activating other modes
-   #+begin_src emacs-lisp
-   (add-hook 'scheme-mode-hook 'paredit-mode)
-   (add-hook 'scheme-mode-hook 'highlight-parentheses-mode)
-   (add-hook 'scheme-mode-hook 'auto-complete-mode)
-   (add-hook 'emacs-lisp-mode-hook 'paredit-mode 'highlight-parentheses-mode)
-   (add-hook 'emacs-lisp-mode-hook 'highlight-parentheses-mode)
-   (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode)
-   (add-hook 'emacs-lisp-mode 'undo-tree-mode)
-   (add-hook 'org-mode-hook 'undo-tree-mode)
-   (add-hook 'scheme-mode-hook 'undo-tree-mode)
-   (add-hook 'text-mode-hook 'undo-tree-mode)
-   (add-hook 'sh-mode-hook 'undo-tree-mode)
-   (add-hook 'markdown-mode-hook 'ispell-minor-mode)
-   (add-hook 'markdown-mode-hook 'pandoc-mode)
-   (add-hook 'org-mode-hook 'ispell-minor-mode)
-   (add-hook 'text-mode-hook 'ispell-minor-mode)
    #+end_src
 ** general kb
    some SPC /comfy/ keybindings
@@ -243,8 +263,8 @@
 *** Evil
     good undoo and c-u scroll up
     #+begin_src emacs-lisp
-    (define-key evil-normal-state-map (kbd "u") 'undo-tree-visualize)
-    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+      (define-key evil-normal-state-map (kbd "u") 'undo-tree-visualize)
+      (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
     #+end_src
 *** org-bindings
     #+begin_src emacs-lisp
@@ -281,21 +301,23 @@
     #+end_src
 *** files bindings
     #+begin_src emacs-lisp
-    (general-define-key
-    :keymaps '(normal insert emacs)
-    :prefix "SPC f"
-    :non-normal-prefix "M-SPC"
-    :prefix-command 'files-command
-    :prefix-map 'files-map
-    "f" 'find-file
-    "x" 'counsel-M-x
-    "d" 'dired
-    "e" 'eval-buffer
-    "l" 'load-file
-    "s" 'save-buffer
-    "t" 'load-theme
-    "i" 'projectile-find-file
-    "p" 'pandoc-output-format-slide-show-hydra/body)
+      (general-define-key
+      :keymaps '(normal insert emacs)
+      :prefix "SPC f"
+      :non-normal-prefix "M-SPC"
+      :prefix-command 'files-command
+      :prefix-map 'files-map
+      "f" 'find-file
+      "x" 'counsel-M-x
+      "d" 'dired
+      "c" 'count-words
+      "i" 'ispell-buffer
+      "e" 'eval-buffer
+      "l" 'load-file
+      "s" 'save-buffer
+      "t" 'load-theme
+      "j" 'projectile-find-file
+      "p" 'pandoc-output-format-slide-show-hydra/body)
     #+end_src
 *** buffer bindings
     #+begin_src emacs-lisp
@@ -349,14 +371,27 @@
 ** ispell
    spell checker that i got working with italian and i'm quite fine with it.
    #+begin_src emacs-lisp
-   (setq-default ispell-program-name "aspell")
+     (setq-default ispell-program-name "aspell")
+     (add-hook 'markdown-mode-hook 'ispell-minor-mode)
+     (add-hook 'org-mode-hook 'ispell-minor-mode)
+     (add-hook 'text-mode-hook 'ispell-minor-mode)
+
+   #+end_src
+** Server
+   start emacs daemon
+   #+begin_src emacs-lisp
+  (require 'server)
+  (server-force-delete)
+  (server-start)
    #+end_src
 ** not related stuff
    #+begin_src emacs-lisp
-   (straight-use-package 'markdown-mode)
-   (straight-use-package 'nix-mode)
-   (straight-use-package 'pandoc-mode)
-   (setq org-agenda-files '("~/.emacs.d/agenda.org"))
+  (straight-use-package 'markdown-mode)
+  (straight-use-package 'nix-mode)
+  (use-package pandoc-mode
+  :straight t
+  :hook (markdown-mode . pandoc-mode))
+  (setq org-agenda-files '("~/.emacs.d/agenda.org"))
    #+end_src
 ** Todo
    is it cringe to put what i would like to add to this config
