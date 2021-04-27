@@ -1,14 +1,5 @@
 (use-package helpful
-  :ensure t
-  :commands (helpful-callable helpful-variable helpful-command helpful-key)
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describ-key] . helpful-key))
+  :ensure t)
 (use-package counsel
   :custom
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
@@ -96,3 +87,19 @@
 
 (use-package all-the-icons
   :ensure t)
+(use-package elfeed
+  :ensure t)
+
+(use-package elfeed
+  :bind (("C-c C-f g" . elfeed-goodies/setup)
+	 ("C-c C-f b" . elfeed-search-browse-url)))
+  (setq elfeed-feeds
+	'("https://ww.reddit.com/r/emacs.rss"
+	  "https://ww.reddit.com/r/linux.rss"
+	  "https://ww.reddit.com/r/news.rss"
+	  "https://ww.reddit.com/r/technology.rss"
+	  "https://ww.reddit.com/r/programming.rss"
+	  "https://ww.reddit.com/r/politics.rss"
+	  "https://ww.reddit.com/r/italy.rss"
+	  ))
+

@@ -27,7 +27,7 @@
  '(elfeed-feeds
    '("https://www2.technologyreview.com/rss/feeds/mainrss.aspx" "https://www.corriere.it/rss/homepage_innovazione.xml" "http://xml2.corriereobjects.it/rss/scienze.xml" "http://xml2.corriereobjects.it/rss/esteri.xml" "http://xml2.corriereobjects.it/rss/politica.xml" "https://static.fsf.org/fsforg/rss/news.xml" "https://static.fsf.org/fsforg/rss/blogs.xml"))
  '(package-selected-packages
-   '(geiser-mit geiser-racket elfeed pandoc-mode pandoc zzz-to-char undo-tree projectile helm racket-mode macrostep-geiser geiser-chicken undo-propose lua-mode vterm eterm-256color org-tree-slide helm-exwm ivy-rtags symon quelpa quack paredit exwm-float emms dmenu tabbar-ruler pdf-tools org-bullets mu4e-views evil-mu4e w3m mode-icons zenity-color-picker desktop-environment chess helpful ivy-rich counsel lsp-mode magit which-key rainbow-delimiters nix-mode doom-modeline geiser use-package sl ivy doom-themes markdown-mode exwm highlight-parentheses solarized-theme zenburn-theme evil-smartparens smartparens ## evil macrostep)))
+   '(sx sxiv dad-joke geiser-mit geiser-racket elfeed pandoc-mode pandoc zzz-to-char undo-tree projectile helm racket-mode macrostep-geiser geiser-chicken undo-propose lua-mode vterm eterm-256color org-tree-slide helm-exwm ivy-rtags symon quelpa quack paredit exwm-float emms dmenu tabbar-ruler pdf-tools org-bullets mu4e-views evil-mu4e w3m mode-icons zenity-color-picker desktop-environment chess helpful ivy-rich counsel lsp-mode magit which-key rainbow-delimiters nix-mode doom-modeline geiser use-package sl ivy doom-themes markdown-mode exwm highlight-parentheses solarized-theme zenburn-theme evil-smartparens smartparens ## evil macrostep)))
 
  
 
@@ -35,8 +35,7 @@
 (require 'smartparens-config)
 (require 'smartparens)
 (smartparens-global-mode t)
-(require 'highlight-parentheses)
-(load-theme 'doom-dracula t)
+(load-theme 'doom-challenger-deep t)
 (evil-mode)
 (require 'which-key)
 (global-display-line-numbers-mode t)
