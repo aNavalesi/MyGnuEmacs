@@ -1,4 +1,12 @@
 * MyGnuEmacs
 
 My GNU Emacs config (exwm, lisp-dev, emms, ivy)
-   
+(and probably the worst emacs literate config you've ever seen)
+
+** Installation
+
+#+begin_src shell-script
+git clone --depth 1 https://github.com/aNavalesi/MyGnuEmacs ~/.emacs.d
+#+end_src
+
+boot emacs, troubleshoot and enjoy
