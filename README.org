@@ -1,0 +1,4 @@
+* MyGnuEmacs
+
+My GNU Emacs config (exwm, lisp-dev, emms, ivy)
+   
