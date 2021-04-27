@@ -14,13 +14,13 @@
 ** Interface basic config
    Make emacs interface better
    #+begin_src emacs-lisp
-       (setq inhibit-startup-message t)
-       (scroll-bar-mode -1)
-       (tool-bar-mode -1)
-       (tooltip-mode -1)
-       (set-fringe-mode 10)
-;;       (menu-bar-mode -1)
-       (set-face-attribute 'default nil :font "dejavu sans mono" :height 120)
+	  ;(setq inhibit-startup-message t)
+	  (scroll-bar-mode -1)
+	  (tool-bar-mode -1)
+	  (tooltip-mode -1)
+	  (set-fringe-mode 10)
+	;  (menu-bar-mode -1)
+	  (set-face-attribute 'default nil :font "dejavu sans mono" :height 120)
    #+end_src
 ** Delete backup files
    i don't want your backup files emacs
@@ -127,12 +127,12 @@
    :straight t
    :init (doom-modeline-mode 1))
    #+end_src
-** doom-themes
-   themes and color schemes, with doom modeline, they make emacs good look 
+** gruvbox theme
+   gruvbox theme for emacs 
    #+begin_src emacs-lisp
-   (use-package doom-themes
+   (use-package gruvbox-theme
    :straight t)
-   (load-theme 'doom-gruvbox t)
+   (load-theme 'gruvbox-dark-hard t)
    #+end_src
 ** Emms
    Emacs media payer based on mpv, why not?
@@ -191,7 +191,12 @@
    #+begin_src emacs-lisp
      (use-package all-the-icons-dired
        :straight t)
-     (hook (dired-mode . all-the-icons-dired-mode))
+     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+   #+end_src
+** sr-speedbar
+   sidebar
+   #+begin_src emacs-lisp
+     (use-package sr-speedbar :straight t)
    #+end_src
 ** Pdf
    Useful if you want to use emacs for pdf reading
@@ -216,7 +221,6 @@
    :bind ("C-c l" . geiser-repl-clear-buffer)
    :straight t)
    (straight-use-package 'geiser-guile)
-   (straight-use-package 'racket-mode)
    #+end_src
 ** slime
    common lisp good plugin yes
@@ -282,10 +286,12 @@
 	  "x" 'counsel-M-x
 	  "SPC" 'find-file
 	  "k" 'kill-current-buffer 
-          "s" 'save-buffer 
+	  "s" 'save-buffer 
+	  "<right>" 'next-buffer
+	  "<left>" 'previous-buffer
+	  "<up>" 'ivy-switch-buffer
+          "<down>" 'other-window 
 
-
- 
 	    )
 
     #+end_src
@@ -321,8 +327,6 @@
       "i" 'ispell-buffer
       "e" 'eval-buffer
       "l" 'load-file
-      "s" 'save-buffer
-      "t" 'load-theme
       "j" 'projectile-find-file
       "p" 'pandoc-output-format-slide-show-hydra/body)
     #+end_src
@@ -340,11 +344,8 @@
       "f" 'delete-other-windows
       "o" 'other-window
       "q" 'save-buffers-kill-terminal
-      "b" 'ivy-switch-buffer
       "+" 'enlarge-window-horizontally 
-      "-" 'shrink-window-horizontally
-      "p" 'previous-buffer
-      "n" 'next-buffer)
+      "-" 'shrink-window-horizontally)
     #+end_src
 *** web bindings
     #+begin_src emacs-lisp
@@ -399,6 +400,11 @@
    #+begin_src emacs-lisp
    (use-package projectile :straight t)
    #+end_src
+** auto-complete
+   #+begin_src emacs-lisp
+    (use-package auto-complete :straight t)
+    (global-auto-complete-mode)
+   #+end_src
 ** not related stuff
    #+begin_src emacs-lisp
   (straight-use-package 'markdown-mode)
@@ -410,5 +416,5 @@
    #+end_src
 ** Todo
    is it cringe to put what i would like to add to this config
-*** TODO eshell config
-*** TODO better org mode config
+*** TODO [#C] eshell config
+*** TODO [#B] better org mode config
