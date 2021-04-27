@@ -1,10 +1,15 @@
 * Emacs config
-My Gnu emacs config, the worst literate config you've ever seen
+  My Gnu emacs config, the worst literate config you've ever seen
 ** straight.el 
    Package manager for emacs that seems based.
    #+BEGIN_SRC emacs-lisp
    (load-file "~/.emacs.d/straight.el/bootstrap.el")
    (kill-buffer "*straight-process*")
+   #+end_src
+** use-package
+   macro for package configuration
+   #+begin_src emacs-lisp
+   (straight-use-package 'use-package)
    #+end_src
 ** Interface basic config
    Make emacs interface better
@@ -16,7 +21,36 @@ My Gnu emacs config, the worst literate config you've ever seen
    (set-fringe-mode 10)
    (menu-bar-mode -1)
    (set-face-attribute 'default nil :font "dejavu sans mono" :height 120)
-   (load-theme 'doom-dracula t)
+   #+end_src
+** Parens editing
+   plugins to not get confused when using many parentheses ((((((((((((((((((((((hold (my (lisp))))))))))))))))))))))))
+   #+begin_src emacs-lisp
+   (use-package highlight-parentheses
+   :straight t)
+   (use-package smartparens
+   :straight t)
+   (use-package paredit
+   :straight t)
+   #+end_src
+** Which Key
+   Pkg that displays possible keybindings after you press SPC, C or M
+   #+begin_src emacs-lisp
+   (use-package which-key
+  :straight t)
+   (require 'which-key)
+   (which-key-mode)
+   #+end_src
+** evil
+   Emacs keybindings suck , evil is the answer (general.el is useful too tho) (not configured ):
+   #+begin_src emacs-lisp
+   (use-package evil
+   :straight t)
+   #+end_src
+** Kill message buffer at startup
+   self explanatory headline
+   #+begin_src emacs-lisp
+   (setq-default message-log-max nil)
+   (kill-buffer "*Messages*")
    #+end_src
 ** Better text buffer modes 
    evil, global-display-line-numbers and smartparens are quite useful for text editing
@@ -27,129 +61,6 @@ My Gnu emacs config, the worst literate config you've ever seen
   (evil-mode)
   (global-display-line-numbers-mode t)
   #+end_src
-** Which Key
-   Pkg that displays possible keybindings after you press SPC, C or M
-   #+begin_src emacs-lisp
-   (use-package which-key
-  :straight t)
-   (require 'which-key)
-   (which-key-mode)
-   #+end_src
-** Kill message buffer at startup
-   self explanatory headline
-   #+begin_src emacs-lisp
-   (setq-default message-log-max nil)
-   (kill-buffer "*Messages*")
-   #+end_src
-** Desktop (exwm) config
-   (delete this if you don't want to have emacs window manager (i know it's not an heavily configured exwm but i'm ok whith that (this looks like a lisp expression)))
-*** Start exwm
-    #+begin_src emacs-lisp
-    (require 'exwm)
-    (require 'exwm-config)
-    (exwm-config-default)
-    #+end_src
-*** App launcher
-    an app launcher for emacs (there is also dmenu)
-    #+begin_src emacs-lisp
-    (load-file "~/.emacs.d/app-launcher.el")
-    (use-package dmenu :straight t)
-    #+end_src
-*** exwm keys
-    Some keybindings to do some desktop stuff from exwm (dont @ me)
-    #+begin_src emacs-lisp
-    (exwm-input-set-key (kbd "s-a") 'app-launcher-run-app)
-    (exwm-input-set-key (kbd "<XF86AudioPlay>") 'desktop-environment-toggle-music)
-    (exwm-input-set-key (kbd "<XF86Explorer>") 'ivy-switch-buffer)
-    (exwm-input-set-key (kbd "<XF86AudioRaiseVolume>") 'desktop-environment-volume-increment)
-    (exwm-input-set-key (kbd "<XF86AudioLowerVolume>") 'desktop-environment-volume-decrement)
-    (exwm-input-set-key (kbd "<XF86AudioMute>") 'desktop-environment-toggle-mute)
-    (exwm-input-set-key (kbd "<XF86AudioMicMute>") 'desktop-environment-toggle-microphone-mute)
-    (exwm-input-set-key (kbd "<XF86MonBrightnessDown>") 'desktop-environment-brightness-decrement-slowly)
-    (exwm-input-set-key (kbd "<XF86Search>") 'swiper)
-    (exwm-input-set-key (kbd "<XF86MonBrightnessUp>") 'desktop-environment-brightness-increment-slowly)
-    (exwm-input-set-key (kbd "s-<return>") 'ansi-term)
-    (exwm-input-set-key (kbd "s-d") 'dmenu)
-    (exwm-input-set-key (kbd "<XF86LaunchA>") 'dmenu)
-    (exwm-input-set-key (kbd "s-e <return>") 'eshell)
-    (exwm-input-set-key (kbd "s-e p") 'proced)
-    (exwm-input-set-key (kbd "s-t")'exwm-layout-toggle-fullscreen)
-    (exwm-input-set-key (kbd "s-m") 'exwm-layout-toggle-mode-line)
-    (exwm-input-set-key (kbd "s-e f") 'elfeed)
-    (exwm-input-set-key (kbd "s-e m") 'emms-play-file)
-    (exwm-input-set-key (kbd "s-x") 'counsel-M-x)
-    (exwm-input-set-key (kbd "s-q") 'kill-current-buffer)
-    (exwm-input-set-key (kbd "s-b") 'ivy-switch-buffer)
-    (exwm-input-set-key (kbd "s-o") 'other-window)
-    (exwm-input-set-key (kbd "s-n") 'next-buffer)
-    (exwm-input-set-key (kbd "s-p") 'previous-buffer)
-    (exwm-input-set-key (kbd "s-f") 'delete-other-windows)
-    (exwm-input-set-key (kbd "s-z") 'exwm-workspace-move-window)
-    (exwm-input-set-key (kbd "s-c") 'exwm-input-release-keyboard)
-    (exwm-input-set-key (kbd "s-SPC") 'exwm-floating-toggle-floating)
-    (exwm-input-set-key (kbd "<print>") 'desktop-environment-screenshot)
-    #+end_src
-*** Desktop environment
-    A based package to interact with audio, video and network in emacs
-    #+begin_src emacs-lisp
-    (use-package desktop-environment :straight t)
-    (setq desktop-environment-screenshot-directory "~/media/pix/screens") 
-    #+end_src
-*** workspaces
-    some stuff for workspaces
-    #+begin_src emacs-lisp
-    (setq exwm-workspace-number 4)
-    (easy-menu-define exwm-workspace-menu nil
-    "Menu for Exwm Workspace.
-    Also used in `exwm-mode-line-workspace-map'."
-    '("Exwm Workspace"
-    ["Add workspace" exwm-workspace-add]
-    ["Delete current workspace" exwm-workspace-delete]
-    ["Move workspace to" exwm-workspace-move]
-    ["Swap workspaces" exwm-workspace-swap]
-    ["Move X window to" exwm-workspace-move-window]
-    ["Move X window from" exwm-workspace-switch-to-buffer]
-    ["Toggle minibuffer" exwm-workspace-toggle-minibuffer]
-    ["Switch workspace" exwm-workspace-switch]
-    ("Switch to" :filter
-    (lambda (&rest _args)
-    (mapcar (lambda (i)
-    `[,(format "workspace %d" i)
-    (lambda ()
-    (interactive)
-    (exwm-workspace-switch ,i))
-    (/= ,i exwm-workspace-current-index)])
-    (number-sequence 0 (1- (exwm-workspace--count))))))))
-    (defvar exwm-mode-line-workspace-map
-    (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line mouse-1] 'exwm-workspace-switch)
-    (define-key map [mode-line mouse-3] exwm-workspace-menu)
-    map)
-  "Local keymap for EXWM mode line string.  See `exwm-mode-line-format'.")
-  (defcustom exwm-mode-line-format
-  `("["
-  (:propertize (:eval (format "WS-%d" exwm-workspace-current-index))
-  local-map ,exwm-mode-line-workspace-map
-  face bold
-  mouse-face mode-line-highlight
-  help-echo "mouse-1: Switch to / add / delete to EXWM workspaces.
-  mouse-2: EXWM Workspace menu.
-  ")
-  "]")
-  "EXWM workspace in the mode line."
-  :type 'sexp)
-  (add-to-list 'mode-line-misc-info exwm-mode-line-format t) 
-    #+end_src
-*** Other stuff
-    put battery and date on the bar, set workspaces number, set char mode as default, run some x commands and kill their shell output (yes, i do switch ctrl and caps)
-    #+begin_src emacs-lisp
-    (display-battery-mode)
-    (display-time-mode)
-    (shell-command (concat "xset r rate 145 "))
-    (shell-command "setxkbmap -option ctrl:nocaps")
-    (kill-buffer "*Shell Command Output*")
-    (delete-other-windows)
-    #+end_src
 ** Ivy & counsel
    ivy is a completion framework for emacs, i use it
    #+begin_src emacs-lisp
@@ -198,27 +109,12 @@ My Gnu emacs config, the worst literate config you've ever seen
    :straight t
    :init (doom-modeline-mode 1))
    #+end_src
-** evil
-   Emacs keybindings suck , evil is the answer (general.el is useful too tho) (not configured ):
-   #+begin_src emacs-lisp
-   (use-package evil
-   :straight t)
-   #+end_src
 ** doom-themes
    themes and color schemes, with doom modeline, they make emacs good look 
    #+begin_src emacs-lisp
    (use-package doom-themes
    :straight t)
-   #+end_src
-** Parens editing
-   plugins to not get confused when using many parentheses ((((((((((((((((((((((hold (my (lisp))))))))))))))))))))))))
-   #+begin_src emacs-lisp
-   (use-package highlight-parentheses
-   :straight t)
-   (use-package smartparens
-   :straight t)
-   (use-package paredit
-   :straight t)
+   (load-theme 'doom-challenger-deep t)
    #+end_src
 ** Emms
    Emacs media payer based on mpv, why not?
@@ -310,8 +206,8 @@ My Gnu emacs config, the worst literate config you've ever seen
    (use-package geiser
    :bind ("C-c l" . geiser-repl-clear-buffer)
    :straight t)
-   (straight-use-package 'geiser-chicken)
    (straight-use-package 'geiser-guile)
+   (straight-use-package 'racket-mode)
    #+end_src
 ** Magit
    ultra based git client for emacs
@@ -340,6 +236,10 @@ My Gnu emacs config, the worst literate config you've ever seen
    #+end_src
 ** general kb
    some SPC /comfy/ keybindings
+*** install
+  #+begin_src emacs-lisp
+  (use-package general :straight t)
+  #+end_src
 *** Evil
     good undoo and c-u scroll up
     #+begin_src emacs-lisp
@@ -360,7 +260,6 @@ My Gnu emacs config, the worst literate config you've ever seen
     "s" 'org-schedule
     "a" 'org-agenda
     "n" 'org-insert-subheading
-    "p" 'org-tree-slide-mode
     "e" 'org-export-dispatch)
     #+end_src
 *** app bindings
@@ -454,6 +353,9 @@ My Gnu emacs config, the worst literate config you've ever seen
    #+end_src
 ** not related stuff
    #+begin_src emacs-lisp
+   (straight-use-package 'markdown-mode)
+   (straight-use-package 'nix-mode)
+   (straight-use-package 'pandoc-mode)
    (setq org-agenda-files '("~/.emacs.d/agenda.org"))
    #+end_src
 ** Todo
